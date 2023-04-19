@@ -19,11 +19,19 @@ const initialState = [
   },
 ]
 
+interface IPost {
+  id: number;
+  title: string;
+  content: string;
+}
+
 const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-
+    postAdded(state, action: { type: string, payload: IPost }) {
+      state.push(action.payload)
+    }
   }
 })
 

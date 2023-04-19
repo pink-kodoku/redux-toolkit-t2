@@ -2,6 +2,7 @@ import { useAppSelector, useAppDispatch } from "../../app/store/hooks";
 import Post from "../../entities/post/ui/Post";
 
 import { selectAllPosts } from "../../entities/post/model/postsSlice";
+import Typography from "../../shared/components/typograpy/Typography";
 
 const PostsList = () => {
   const posts = useAppSelector(selectAllPosts);
@@ -11,13 +12,14 @@ const PostsList = () => {
       title={post.title}
       content={post.content}
       key={post.id}
+      style={{marginBottom: 20}}
     />
   ))
 
 
   return (
     <div>
-      <h2>Posts</h2>
+      <Typography element="h2" style={{ marginBottom: 10 }}>Posts</Typography>
       {renderedPosts}
     </div>
   )
