@@ -1,6 +1,6 @@
-import AddPostForm from "../../features/addPostForm/AddPostForm";
-import PostsList from "../../features/postsList/PostsList";
-import { Container, Typography } from "../../shared/components";
+import AddPostForm from "@features/posts/addPostForm/AddPostForm";
+import PostsList from "@features/posts/postsList/PostsList";
+import { Container, Typography } from "@shared/components";
 
 
 const Posts = () => {

@@ -1,30 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../../../app/store/store';
-
 import { nanoid } from '@reduxjs/toolkit'
+import { IPost, Reaction } from './types';
+import { initialState } from './data';
 
-const initialState = [
-  {
-    id: "1",
-    title: "Что вы знаете о математической индукции и других методах доказательства?",
-    content: 'Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века.'
-  },
-  {
-    id: "2",
-    title: "Почему биологи и химики не знают точного происхождения жизни на планете Земля?",
-    content: 'Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века.'
-  },
-  {
-    id: "3",
-    title: "Как повысить свою скорость чтения и для чего это делать, когда есть аудиокниги?",
-    content: 'Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века.'
-  },
-]
+interface PostAddedAction {
+  type: string;
+  payload: IPost
+}
 
-interface IPost {
-  id: string;
-  title: string;
-  content: string;
+interface ReactionAddedAction {
+  type: string;
+  payload: {
+    postId: string;
+    reaction: keyof Reaction;
+  }
 }
 
 const postsSlice = createSlice({
@@ -32,17 +22,33 @@ const postsSlice = createSlice({
   initialState,
   reducers: {
     postAdded: {
-      reducer(state, action: { type: string, payload: IPost }) {
+      reducer(state, action: PostAddedAction) {
         state.push(action.payload)
       },
-      prepare(title, content) {
+      prepare(title, content, userId) {
         return {
           payload: {
             id: nanoid(),
             title,
-            content
+            content,
+            date: new Date().toISOString(),
+            userId,
+            reactions: {
+              thumbsUp: 0,
+              wow: 0,
+              heart: 0,
+              rocket: 0,
+              coffee: 0
+            }
           }
         }
+      }
+    },
+    reactionAdded(state, action: ReactionAddedAction) {
+      const { postId, reaction } = action.payload;
+      const existingPost = state.find(post => post.id === postId);
+      if (existingPost) {
+        existingPost.reactions[reaction]++;
       }
     }
   }
@@ -51,6 +57,6 @@ const postsSlice = createSlice({
 
 export const selectAllPosts = (state: RootState) => state.posts;
 
-export const { postAdded } = postsSlice.actions;
+export const { postAdded, reactionAdded } = postsSlice.actions;
 
 export default postsSlice.reducer;
