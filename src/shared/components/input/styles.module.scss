@@ -1,0 +1,8 @@
+.input {
+  padding: 8px;
+  transition: 0.1s linear all;
+
+  &:focus {
+    outline: 2px solid blue;
+  }
+}

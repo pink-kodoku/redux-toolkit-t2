@@ -20,7 +20,7 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
 const ElementComponent: React.FC<IProps> = ({ element = 'text', children, ...props }) =>
   createElement(elementsMapping[element], props, children);
 
-const Typography: React.FC<IProps> = ({ element, children, ...props }) => {
+export const Typography: React.FC<IProps> = ({ element, children, ...props }) => {
 
   return (
     <ElementComponent element={element} className={cn(styles[`typography-element-${element}`])} {...props}>
@@ -28,5 +28,3 @@ const Typography: React.FC<IProps> = ({ element, children, ...props }) => {
     </ElementComponent >
   )
 }
-
-export default Typography;

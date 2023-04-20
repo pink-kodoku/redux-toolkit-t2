@@ -1,6 +1,6 @@
+import AddPostForm from "../../features/addPostForm/AddPostForm";
 import PostsList from "../../features/postsList/PostsList";
-import Container from "../../shared/components/container/Container";
-import Typography from "../../shared/components/typograpy/Typography";
+import { Container, Typography } from "../../shared/components";
 
 
 const Posts = () => {
@@ -8,6 +8,7 @@ const Posts = () => {
     <main>
       <Container>
         <Typography element="h1" style={{ textAlign: 'center' }}>Hello Guest!</Typography>
+        <AddPostForm />
         <PostsList />
       </Container>
     </main>
