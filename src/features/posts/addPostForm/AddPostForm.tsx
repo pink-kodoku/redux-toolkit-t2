@@ -29,8 +29,6 @@ const AddPostForm = () => {
     })
   }
 
-  console.log(post)
-
   const canSave = Boolean(post.title) && Boolean(post.content) && Boolean(post.userId);
 
   const handleSavePost = () => {
