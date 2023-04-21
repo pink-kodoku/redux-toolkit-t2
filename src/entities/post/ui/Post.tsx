@@ -23,7 +23,6 @@ function areEqual(prevProps: IPostProps, nextProps: IPostProps) {
 }
 
 const Post: React.FC<IPostProps> = memo(({ id, title, content, userId, date, reactions, handleAddReaction, ...props }) => {
-  console.log("render")
   return (
     <article className={styles.post} {...props}>
       <h3>{title}</h3>

@@ -17,6 +17,7 @@ const PostsList = () => {
 
   const renderedPosts = orderedPosts.map(post => (
     <Post
+      key={post.id}
       {...post}
       style={{ marginBottom: 20 }}
       handleAddReaction={handleAddReaction}
