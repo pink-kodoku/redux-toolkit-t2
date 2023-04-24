@@ -28,7 +28,6 @@ const PostsList = () => {
   if (postsStatus === 'loading') {
     content = <p>Loading...</p>
   } else if (postsStatus === 'succeeded') {
-    console.log("succcess")
     const orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date))
     content = orderedPosts.map(post => (
       <Post
