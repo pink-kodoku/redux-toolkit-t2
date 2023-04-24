@@ -3,3 +3,25 @@
   border-radius: 25px;
   padding: 30px;
 }
+
+.postLink {
+  margin-bottom: 5px;
+}
+
+.link {
+  color: rgb(119, 160, 255);
+  border-bottom: 1px solid transparent;
+  transition: 0.2s linear all;
+
+  &:hover {
+    border-bottom-color: rgb(119, 160, 255);
+  }
+}
+
+.body {
+  margin: 10px 0px;
+}
+
+.postInfo {
+  margin: 10px 0px;
+}

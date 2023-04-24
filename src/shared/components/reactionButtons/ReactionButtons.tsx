@@ -1,5 +1,7 @@
 import styles from './styles.module.scss'
 import { IPost, ReactionNames } from '../../../entities/post/model/types';
+import { useAppDispatch } from '@app/store/hooks';
+import { reactionAdded } from '@entities/post/model/postsSlice';
 
 const reactionEmoji = {
   thumbsUp: '👍',
@@ -11,11 +13,16 @@ const reactionEmoji = {
 
 interface IProps {
   post: IPost;
-  handleAddReaction: (id: string, reactionName: ReactionNames) => void;
 }
 
 
-export const ReactionButtons: React.FC<IProps> = ({ post, handleAddReaction }) => {
+export const ReactionButtons: React.FC<IProps> = ({ post }) => {
+  const dispatch = useAppDispatch();
+
+  const handleAddReaction = (id: string, reactionName: ReactionNames) => {
+    dispatch(reactionAdded({ postId: id, reaction: reactionName }))
+  }
+
   const reactionButtons = Object.entries(reactionEmoji).map(([name, emoji]: [any, any]) => {
     return (
       <button

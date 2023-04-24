@@ -32,7 +32,6 @@ const PostsList = () => {
     content = orderedPosts.map(post => (
       <Post
         style={{ marginBottom: 20 }}
-        handleAddReaction={handleAddReaction}
         key={post.id}
         {...post}
       />
