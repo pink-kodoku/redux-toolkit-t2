@@ -3,7 +3,7 @@ import styles from './styles.module.scss'
 import { useAppDispatch, useAppSelector } from '@app/store/hooks';
 import { selectAllUsers } from '@entities/users/model/usersSlice';
 
-import { updatePost } from '@entities/post/api/posts';
+import { deletePost, updatePost } from '@entities/post/api/posts';
 import PostForm from '../postForm/PostForm';
 import { IPostData, Status } from '@entities/post/model/types';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -38,10 +38,25 @@ const EditPostForm = () => {
       setEditRequestStatus('idle')
     }
   }
+
+  const handleDeletePost = () => {
+    try {
+      setEditRequestStatus('loading')
+      dispatch(deletePost({id: postId})).unwrap()
+      navigate('/')
+    } catch (err: any) {
+      console.error(`Failed to delete the post`, err)
+    } finally {
+      setEditRequestStatus('idle')
+    }
+  }
+
+
   return (
     <PostForm
       postData={post}
       handleSubmit={handleEditPost}
+      handleDelete={handleDeletePost}
       status={editRequestStatus}
       users={users} />
   )

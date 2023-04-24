@@ -1,57 +1,69 @@
-import { useState } from 'react';
-import styles from './styles.module.scss'
-import { Input, Textarea, Label, Button } from '@shared/components'
-import { IPostData, Status } from '@entities/post/model/types';
-import { IUser } from '@entities/users/model/types';
+import { useState } from "react";
+import styles from "./styles.module.scss";
+import { Input, Textarea, Label, Button } from "@shared/components";
+import { IPostData, Status } from "@entities/post/model/types";
+import { IUser } from "@entities/users/model/types";
 
 interface IProps {
   postData: IPostData;
   handleSubmit: (post: IPostData) => void;
+  handleDelete?: () => void;
   users: IUser[];
   status: Status;
 }
 
-const PostForm: React.FC<IProps> = ({ postData, handleSubmit, users, status }) => {
-  const [post, setPost] = useState(postData)
+const PostForm: React.FC<IProps> = ({
+  postData,
+  handleSubmit,
+  handleDelete,
+  users,
+  status,
+}) => {
+  const [post, setPost] = useState(postData);
 
-  const canSave = [post.title, post.body, post.userId].every(Boolean) && status === 'idle'
-
+  const canSave =
+    [post.title, post.body, post.userId].every(Boolean) && status === "idle";
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
 
     setPost({
       ...post,
-      [name]: value
-    })
-  }
+      [name]: value,
+    });
+  };
 
   const handleOnClicked = () => {
     if (canSave) {
-      handleSubmit(post)
+      handleSubmit(post);
     }
-  }
+  };
 
-  const usersOptions = users.map(user => (
+  const usersOptions = users.map((user) => (
     <option key={user.id} value={user.id}>
       {user.name}
     </option>
-  ))
+  ));
 
   return (
     <form className={styles.form}>
       <div className={styles.group}>
-        <Label className={styles.label} htmlFor='postTitle'>Post Title: </Label>
+        <Label className={styles.label} htmlFor="postTitle">
+          Post Title:{" "}
+        </Label>
         <Input
-          type='text'
+          type="text"
           id="postTitle"
           name="title"
           value={post.title}
-          onChange={handleChange} />
+          onChange={handleChange}
+        />
       </div>
 
       <div className={styles.group}>
-        <Label className={styles.label} htmlFor='postTitle'>Post Content: </Label>
+        <Label className={styles.label} htmlFor="postTitle">
+          Post Content:{" "}
+        </Label>
         <Textarea
           id="postContent"
           name="body"
@@ -61,8 +73,16 @@ const PostForm: React.FC<IProps> = ({ postData, handleSubmit, users, status }) =
       </div>
 
       <div className={styles.group}>
-        <Label className={styles.label} htmlFor='post author'>Author:</Label>
-        <select name="userId" id="post author" defaultValue={postData.userId && postData.userId} value={post.userId} onChange={handleChange}>
+        <Label className={styles.label} htmlFor="post author">
+          Author:
+        </Label>
+        <select
+          name="userId"
+          id="post author"
+          defaultValue={postData.userId && postData.userId}
+          value={post.userId}
+          onChange={handleChange}
+        >
           <option value=""></option>
           {usersOptions}
         </select>
@@ -71,8 +91,14 @@ const PostForm: React.FC<IProps> = ({ postData, handleSubmit, users, status }) =
       <Button type="button" onClick={handleOnClicked} disabled={!canSave}>
         Save Post
       </Button>
+
+      {handleDelete && (
+        <Button type="button" onClick={handleDelete}>
+          Delete Post
+        </Button>
+      )}
     </form>
-  )
-}
+  );
+};
 
 export default PostForm;

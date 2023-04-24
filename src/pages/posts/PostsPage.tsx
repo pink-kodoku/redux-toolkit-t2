@@ -6,7 +6,7 @@ const PostsPage = () => {
   return (
     <main>
       <Container>
-        <Typography element="h1" style={{ textAlign: 'center' }}>Hello Guest!</Typography>
+        <Typography element="h1" style={{ textAlign: 'center', marginBottom: 20 }}>Hello Guest!</Typography>
         <PostsList />
       </Container>
     </main>

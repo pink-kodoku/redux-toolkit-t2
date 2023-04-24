@@ -1,6 +1,6 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit'
 import { RootState } from '@app/store/store';
-import { ActionType, IPost, ReactionNames } from './types';
+import { ActionType, IPost, IPostData, ReactionNames } from './types';
 import { initialState } from './data';
 import { addNewPost, deletePost, fetchPosts, updatePost } from '../api/posts';
 import { sub } from 'date-fns';
@@ -69,8 +69,8 @@ const postsSlice = createSlice({
         //@ts-ignore
         state.error = action.error.message;
       })
-      .addCase(addNewPost.fulfilled, (state, action) => {
-        action.payload.userId = Number(action.payload.userId);
+      .addCase(addNewPost.fulfilled, (state, action: ActionType<IPost>) => {
+        action.payload.id = nanoid();
         action.payload.date = new Date().toISOString();
         action.payload.reactions = {
           thumbsUp: 0,
@@ -94,7 +94,7 @@ const postsSlice = createSlice({
         const posts = state.posts.filter(post => post.id !== id);
         state.posts = [...posts, action.payload]
       })
-      .addCase(deletePost.fulfilled, (state, action) => {
+      .addCase(deletePost.fulfilled, (state, action: ActionType<{id: string}>) => {
         if (!action.payload?.id) {
           console.log('Delete could not complete')
           console.log(action.payload)
