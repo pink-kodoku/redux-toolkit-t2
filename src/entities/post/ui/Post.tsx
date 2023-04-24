@@ -30,7 +30,7 @@ const Post: React.FC<IPostProps> = memo(({ id, title, body, userId, date, reacti
       <p className={styles.body}>{body.substring(0, 75)}</p>
       <div className={styles.postInfo}>
         <div className={styles.postLink}>
-          <Link to={`posts/${id}`} className={styles.link}>View Post</Link>
+          <Link to={`post/${id}`} className={styles.link}>View Post</Link>
         </div>
         <PostAuthor userId={userId} />
         <TimeAgo timestamp={date} />

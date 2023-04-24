@@ -1,8 +1,8 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit'
 import { RootState } from '@app/store/store';
-import { PostAddedAction, ReactionAddedAction } from './types';
+import { ActionType, IPost, ReactionNames } from './types';
 import { initialState } from './data';
-import { addNewPost, fetchPosts } from '../api/posts';
+import { addNewPost, fetchPosts, updatePost } from '../api/posts';
 import { sub } from 'date-fns';
 
 const postsSlice = createSlice({
@@ -10,7 +10,7 @@ const postsSlice = createSlice({
   initialState,
   reducers: {
     postAdded: {
-      reducer(state, action: PostAddedAction) {
+      reducer(state, action: ActionType<IPost>) {
         state.posts.push(action.payload)
       },
       prepare(title, body, userId) {
@@ -32,7 +32,7 @@ const postsSlice = createSlice({
         }
       }
     },
-    reactionAdded(state, action: ReactionAddedAction) {
+    reactionAdded(state, action: ActionType<{ postId: string, reaction: ReactionNames }>) {
       const { postId, reaction } = action.payload;
       const existingPost = state.posts.find(post => post.id === postId);
       if (existingPost) {
@@ -42,7 +42,7 @@ const postsSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchPosts.pending, (state, action) => {
+      .addCase(fetchPosts.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
@@ -81,6 +81,18 @@ const postsSlice = createSlice({
         }
         console.log(action.payload)
         state.posts.push(action.payload)
+      })
+      .addCase(updatePost.fulfilled, (state, action: ActionType<IPost>) => {
+        if (!action.payload?.id) {
+          console.log("Update could not complete")
+          console.log(action.payload)
+          return;
+        }
+
+        const { id } = action.payload;
+        action.payload.date = new Date().toISOString();
+        const posts = state.posts.filter(post => post.id !== id);
+        state.posts = [...posts, action.payload]
       })
   }
 })

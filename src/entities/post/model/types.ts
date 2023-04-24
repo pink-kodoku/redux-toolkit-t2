@@ -17,6 +17,12 @@ export interface IPost {
   reactions: Reaction;
 }
 
+export interface IPostData {
+  title: string;
+  body: string;
+  userId: string;
+}
+
 export type Status = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 export interface IState {
@@ -25,15 +31,7 @@ export interface IState {
   error: string | null;
 }
 
-export interface PostAddedAction {
+export interface ActionType<T> {
   type: string;
-  payload: IPost
-}
-
-export interface ReactionAddedAction {
-  type: string;
-  payload: {
-    postId: string;
-    reaction: keyof Reaction;
-  }
+  payload: T;
 }
