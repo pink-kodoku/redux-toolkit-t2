@@ -8,3 +8,8 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   const { data }: { data: IPost[] } = await axios.get(POSTS_URL);
   return data;
 })
+
+export const addNewPost = createAsyncThunk('posts/addNewPost', async (initialPost:any) => {
+  const {data} = await axios.post(POSTS_URL, initialPost);
+  return data;
+})

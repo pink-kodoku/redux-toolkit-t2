@@ -2,7 +2,7 @@ import { createSlice, nanoid } from '@reduxjs/toolkit'
 import { RootState } from '@app/store/store';
 import { PostAddedAction, ReactionAddedAction } from './types';
 import { initialState } from './data';
-import { fetchPosts } from '../api/posts';
+import { addNewPost, fetchPosts } from '../api/posts';
 import { sub } from 'date-fns';
 
 const postsSlice = createSlice({
@@ -46,7 +46,6 @@ const postsSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
-        console.log(action.payload)
         state.status = 'succeeded'
         // Adding date and reactions
         let min = 1;
@@ -69,6 +68,19 @@ const postsSlice = createSlice({
         state.status = 'failed'
         //@ts-ignore
         state.error = action.error.message;
+      })
+      .addCase(addNewPost.fulfilled, (state, action) => {
+        action.payload.userId = Number(action.payload.userId);
+        action.payload.date = new Date().toISOString();
+        action.payload.reactions = {
+          thumbsUp: 0,
+          wow: 0,
+          heart: 0,
+          rocket: 0,
+          coffee: 0,
+        }
+        console.log(action.payload)
+        state.posts.push(action.payload)
       })
   }
 })
