@@ -5,7 +5,6 @@ import { Container } from "@shared/components";
 import { useParams } from "react-router-dom";
 
 const PostPage = () => {
-
   const { postId } = useParams()
 
   const post = useAppSelector(state => selectPostById(state, postId!))
@@ -18,7 +17,7 @@ const PostPage = () => {
 
   return (
     <Container>
-      <Post {...post} />
+      <Post {...post} mode='edit'/>
     </Container>
   )
 }

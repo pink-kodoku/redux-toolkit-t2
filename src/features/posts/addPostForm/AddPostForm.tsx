@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import styles from './styles.module.scss'
-import { Typography} from '@shared/components'
+import { Typography } from '@shared/components'
 
 import { useAppDispatch, useAppSelector } from '@app/store/hooks';
 import { selectAllUsers } from '@entities/users/model/usersSlice';
@@ -8,6 +8,7 @@ import { selectAllUsers } from '@entities/users/model/usersSlice';
 import { addNewPost } from '@entities/post/api/posts';
 import PostForm from '../postForm/PostForm';
 import { IPostData, Status } from '@entities/post/model/types';
+import { useNavigate } from 'react-router-dom';
 
 const postInitialState = {
   title: '',
@@ -18,6 +19,7 @@ const postInitialState = {
 
 const AddPostForm = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [post, setPost] = useState<IPostData>(postInitialState)
   const [addRequestStatus, setAddRequestStatus] = useState<Status>('idle')
 
@@ -28,6 +30,7 @@ const AddPostForm = () => {
       setAddRequestStatus('loading')
       dispatch(addNewPost(post)).unwrap()
       setPost(postInitialState)
+      navigate('/')
     } catch (err: any) {
       console.error('Failed to save the post', err)
     } finally {

@@ -31,7 +31,7 @@ const EditPostForm = () => {
     try {
       setEditRequestStatus('loading')
       dispatch(updatePost(post)).unwrap()
-      // setPost(postInitialState)
+      navigate(`/post/${postId}`)
     } catch (err: any) {
       console.error('Failed to save the post', err)
     } finally {

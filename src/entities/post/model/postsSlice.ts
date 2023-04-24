@@ -2,7 +2,7 @@ import { createSlice, nanoid } from '@reduxjs/toolkit'
 import { RootState } from '@app/store/store';
 import { ActionType, IPost, ReactionNames } from './types';
 import { initialState } from './data';
-import { addNewPost, fetchPosts, updatePost } from '../api/posts';
+import { addNewPost, deletePost, fetchPosts, updatePost } from '../api/posts';
 import { sub } from 'date-fns';
 
 const postsSlice = createSlice({
@@ -93,6 +93,16 @@ const postsSlice = createSlice({
         action.payload.date = new Date().toISOString();
         const posts = state.posts.filter(post => post.id !== id);
         state.posts = [...posts, action.payload]
+      })
+      .addCase(deletePost.fulfilled, (state, action) => {
+        if (!action.payload?.id) {
+          console.log('Delete could not complete')
+          console.log(action.payload)
+          return;
+        }
+        const { id } = action.payload;
+        const posts = state.posts.filter(post => post.id !== id);
+        state.posts = posts;
       })
   }
 })

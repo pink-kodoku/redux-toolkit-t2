@@ -12,11 +12,22 @@ export const addNewPost = createAsyncThunk('posts/addNewPost', async (initialPos
   return data;
 })
 
-export const updatePost = createAsyncThunk('posts/updatePost', async (initialState: Partial<IPost>) => {
-  const { id } = initialState;
+export const updatePost = createAsyncThunk('posts/updatePost', async (initialPost: Partial<IPost>) => {
+  const { id } = initialPost;
   try {
     const response = await axios.put(`posts/${id}`)
-    if (response?.status === 200) return initialState;
+    if (response?.status === 200) return initialPost;
+    return `${response?.status}: ${response?.statusText}`;
+  } catch (err: any) {
+    return err.message;
+  }
+})
+
+export const deletePost = createAsyncThunk('posts/deletePost', async (initialPost: Partial<IPost>) => {
+  const { id } = initialPost;
+  try {
+    const response = await axios.delete(`posts/${id}`);
+    if (response?.status === 200) return initialPost;
     return `${response?.status}: ${response?.statusText}`;
   } catch (err: any) {
     return err.message;

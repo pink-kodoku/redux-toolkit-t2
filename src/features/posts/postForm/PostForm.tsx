@@ -62,7 +62,7 @@ const PostForm: React.FC<IProps> = ({ postData, handleSubmit, users, status }) =
 
       <div className={styles.group}>
         <Label className={styles.label} htmlFor='post author'>Author:</Label>
-        <select name="userId" id="post author" value={post.userId} onChange={handleChange}>
+        <select name="userId" id="post author" defaultValue={postData.userId && postData.userId} value={post.userId} onChange={handleChange}>
           <option value=""></option>
           {usersOptions}
         </select>

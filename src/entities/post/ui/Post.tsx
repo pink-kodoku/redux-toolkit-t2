@@ -11,6 +11,7 @@ interface IPostProps extends IPost, React.HTMLAttributes<HTMLDivElement> {
   title: string;
   id: string;
   body: string;
+  mode: 'edit' | 'view'
 }
 
 function areEqual(prevProps: IPostProps, nextProps: IPostProps) {
@@ -23,14 +24,15 @@ function areEqual(prevProps: IPostProps, nextProps: IPostProps) {
   return false;
 }
 
-const Post: React.FC<IPostProps> = memo(({ id, title, body, userId, date, reactions, ...props }) => {
+const Post: React.FC<IPostProps> = memo(({ id, title, body, userId, date, mode, reactions, ...props }) => {
+  const isEdit = mode === 'edit'
   return (
     <article className={styles.post} {...props}>
       <h3>{title}</h3>
       <p className={styles.body}>{body.substring(0, 75)}</p>
       <div className={styles.postInfo}>
         <div className={styles.postLink}>
-          <Link to={`post/${id}`} className={styles.link}>View Post</Link>
+          <Link to={isEdit ? `/post/edit/${id}` : `/post/${id}`} className={styles.link}>{isEdit ? 'Edit' : 'View'} Post</Link>
         </div>
         <PostAuthor userId={userId} />
         <TimeAgo timestamp={date} />

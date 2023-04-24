@@ -27,6 +27,7 @@ const PostsList = () => {
       <Post
         style={{ marginBottom: 20 }}
         key={post.id}
+        mode='view'
         {...post}
       />
     ))
