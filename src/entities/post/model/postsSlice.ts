@@ -1,6 +1,6 @@
-import { createSlice, nanoid } from '@reduxjs/toolkit'
+import { createSlice, nanoid, createSelector } from '@reduxjs/toolkit'
 import { RootState } from '@app/store/store';
-import { ActionType, IPost, IPostData, ReactionNames } from './types';
+import { ActionType, IPost, ReactionNames } from './types';
 import { initialState } from './data';
 import { addNewPost, deletePost, fetchPosts, updatePost } from '../api/posts';
 import { sub } from 'date-fns';
@@ -94,7 +94,7 @@ const postsSlice = createSlice({
         const posts = state.posts.filter(post => post.id !== id);
         state.posts = [...posts, action.payload]
       })
-      .addCase(deletePost.fulfilled, (state, action: ActionType<{id: string}>) => {
+      .addCase(deletePost.fulfilled, (state, action: ActionType<{ id: string }>) => {
         if (!action.payload?.id) {
           console.log('Delete could not complete')
           console.log(action.payload)
@@ -113,6 +113,10 @@ export const getPostsStatus = (state: RootState) => state.posts.status;
 export const getPostsError = (state: RootState) => state.posts.error;
 
 export const selectPostById = (state: RootState, postId: string) => state.posts.posts.find(post => post.id === postId);
+
+export const selectPostsByUser = createSelector(
+  [selectAllPosts, (state: RootState, userId: string) => userId],
+  (posts, userId) => posts.filter(post => post.userId == userId))
 
 export const { postAdded, reactionAdded } = postsSlice.actions;
 

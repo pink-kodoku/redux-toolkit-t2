@@ -12,7 +12,12 @@ export const Header = memo(() => {
           <ul>
             <li className={styles.links}>
               <Link to='/'>Home</Link>
+            </li>
+            <li className={styles.links}>
               <Link to='/post'>Create Post</Link>
+            </li>
+            <li className={styles.links}>
+              <Link to='/user'>Users</Link>
             </li>
           </ul>
         </nav>
